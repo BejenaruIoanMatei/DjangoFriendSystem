@@ -1,0 +1,5 @@
+# Ignora mediul virtual
+venv
+
+# Ignora setarile
+friend_system/friend_system/settings.py
