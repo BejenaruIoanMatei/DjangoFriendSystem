@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 STATUS_CHOICES = (
-    ('send', 'Send'),
-    ('accepted', 'Accepted'),
+    ('send', 'send'),
+    ('accepted', 'accepted'),
 )
 
 class Profile(models.Model):
@@ -24,12 +24,19 @@ class Profile(models.Model):
     def __str__(self):
         return str(self.user)
     
+class RelationshipManager(models.Manager):
+    def invitations_received(self, receiver):
+        qs = Relationship.objects.filter(receiver=receiver, status='send')
+        return qs
+        
 class Relationship(models.Model):
     sender = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='sender')
     receiver = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='receiver')
     status = models.CharField(max_length=8, choices=STATUS_CHOICES)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+    
+    objects = RelationshipManager()
 
     def __str__(self):
         return f"{self.sender}-{self.receiver}-{self.status}"
