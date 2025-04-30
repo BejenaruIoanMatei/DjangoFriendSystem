@@ -1,0 +1,10 @@
+{% extends 'profiles/base.html' %}
+
+{%block title%}
+my profile
+{%endblock title%}
+
+{%block content%}
+<h1>Profile of: {{profile.user}}</h1>
+{{profile}}
+{%endblock content%}
